@@ -7,4 +7,8 @@ export const colors = {
   section_mint: '#00B2B2',
   black: '#1C1D21',
   white: '#FFFFFF',
+  light_grey: '#E0E0E0',
+  background: '#F9F9F9',
+  orange: '	#f0ad4e',
+  green: '#479647',
 };

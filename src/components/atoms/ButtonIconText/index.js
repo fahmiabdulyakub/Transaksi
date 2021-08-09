@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     paddingHorizontal,
     height,
   ) => ({
-    backgroundColor: backgroundColor ? backgroundColor : colors.bg.blue,
+    backgroundColor: backgroundColor ? backgroundColor : colors.primary,
     paddingVertical: height ? null : paddingVertical ? paddingVertical : hp(1),
     paddingHorizontal: paddingHorizontal ? paddingHorizontal : wp(3.6),
     height: height ? height : null,
@@ -66,15 +66,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   }),
   title: (titleColor, fontTitle, widthText, leftText) => ({
-    fontFamily: fontTitle ? fontTitle : fonts.MontserratRegular,
+    fontFamily: fontTitle ? fontTitle : fonts.LatoSemibold,
     fontSize: hp(1.5),
-    color: titleColor ? titleColor : colors.text.white,
+    color: titleColor ? titleColor : colors.white,
     width: widthText ? widthText : null,
     left: leftText ? leftText : null,
   }),
   title1: {
-    fontFamily: fonts.MontserratBold,
-    color: colors.text.abu,
+    fontFamily: fonts.LatoBold,
+    color: colors.abu,
     fontSize: hp(1.3),
   },
 });

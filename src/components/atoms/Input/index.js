@@ -69,15 +69,15 @@ const styles = StyleSheet.create({
   }),
   input: (colorText, fontSize, fontFamily, widthInput) => ({
     fontSize: fontSize ? fontSize : hp(2),
-    fontFamily: fontFamily ? fontFamily : fonts.MontserratRegular,
-    color: colorText ? colorText : colors.text.placeholder,
+    fontFamily: fontFamily ? fontFamily : fonts.LatoSemibold,
+    color: colorText ? colorText : colors.light_grey,
     width: widthInput,
     flex: 1,
   }),
   lengthText: {
     fontSize: hp(1.5),
-    fontFamily: fonts.MontserratBold,
-    color: colors.text.silver,
+    fontFamily: fonts.LatoBold,
+    color: colors.light_grey,
     top: hp(1),
   },
 });
