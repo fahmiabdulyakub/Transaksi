@@ -1,7 +1,10 @@
 import React from 'react';
 import {StyleSheet, TextInput, View} from 'react-native';
+import {ICChevron} from '../../../assets';
 import {colors, fonts, hp, wp} from '../../../constants';
 import ButtonIconOnly from '../ButtonIconOnly';
+import ButtonIconText from '../ButtonIconText';
+import Gap from '../Gap';
 
 const Input = ({
   placeholder,
@@ -33,12 +36,14 @@ const Input = ({
         paddingRight,
       )}>
       {suffixComponent && suffixComponent}
+      <Gap width={wp(2)} />
       <TextInput
         style={styles.input(colorText, fontSize, fontFamily, widthInput)}
         placeholder={placeholder}
         value={value}
         onChangeText={onChangeText}
         placeholderTextColor={placeholderColor}
+        textDecorationLine={'underline'}
         keyboardType={keyboardType}
         multiline={multiline}
         numberOfLines={5}
@@ -46,6 +51,13 @@ const Input = ({
         secureTextEntry={secureTextEntry}
       />
       {onPress && <ButtonIconOnly onPress={onPress} icon={icon} />}
+      <ButtonIconText
+        backgroundColor={colors.white}
+        title={'URUTKAN'}
+        flexDirection={'row'}
+        titleColor={colors.border_danger}
+        iconRight={<ICChevron width={wp(5)} height={wp(5)} />}
+      />
     </View>
   );
 };
@@ -62,8 +74,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: backgroundColor,
     alignItems: 'center',
-    height: height ? height : hp(6),
-    borderRadius: wp(2.4),
+    height: height ? height : hp(8),
+    borderRadius: 5,
     paddingHorizontal: paddingHorizontal ? paddingHorizontal : wp(3.6),
     paddingRight: paddingRight,
   }),

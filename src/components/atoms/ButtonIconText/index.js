@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {colors, fonts, hp, wp} from '../../../constants';
+import Gap from '../Gap';
 
 const ButtonIconText = ({
   title,
@@ -34,12 +35,15 @@ const ButtonIconText = ({
       disabled={disabled}>
       {icon && icon}
       <View>
-        <Text style={styles.title1}>{title1}</Text>
-        <Text style={styles.title(titleColor, fontTitle, widthText, leftText)}>
-          {title}
-        </Text>
+        {title1 && <Text style={styles.title1}>{title1}</Text>}
+        {title && (
+          <Text
+            style={styles.title(titleColor, fontTitle, widthText, leftText)}>
+            {title}
+          </Text>
+        )}
       </View>
-
+      {iconRight && <Gap width={wp(1)} />}
       {iconRight && iconRight}
     </TouchableOpacity>
   );
@@ -57,8 +61,8 @@ const styles = StyleSheet.create({
     height,
   ) => ({
     backgroundColor: backgroundColor ? backgroundColor : colors.primary,
-    paddingVertical: height ? null : paddingVertical ? paddingVertical : hp(1),
-    paddingHorizontal: paddingHorizontal ? paddingHorizontal : wp(3.6),
+    paddingVertical: height ? null : paddingVertical,
+    paddingHorizontal: paddingHorizontal,
     height: height ? height : null,
     borderRadius: borderRadius ? borderRadius : 15,
     flexDirection: flexDirection ? flexDirection : 'row',
@@ -66,7 +70,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   }),
   title: (titleColor, fontTitle, widthText, leftText) => ({
-    fontFamily: fontTitle ? fontTitle : fonts.LatoSemibold,
+    fontFamily: fontTitle ? fontTitle : fonts.LatoBold,
     fontSize: hp(1.5),
     color: titleColor ? titleColor : colors.white,
     width: widthText ? widthText : null,
