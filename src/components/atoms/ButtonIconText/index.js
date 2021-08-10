@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   }),
   title: (titleColor, fontTitle, widthText, leftText) => ({
-    fontFamily: fontTitle ? fontTitle : fonts.LatoBold,
+    fontFamily: fontTitle ? fontTitle : fonts.LatoBlack,
     fontSize: hp(1.5),
     color: titleColor ? titleColor : colors.white,
     width: widthText ? widthText : null,

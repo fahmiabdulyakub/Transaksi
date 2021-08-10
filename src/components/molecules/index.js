@@ -1,2 +1,3 @@
 import {Card} from './Card';
-export {Card};
+import {ModalSort} from './ModalSort';
+export {Card, ModalSort};
