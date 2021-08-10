@@ -5,6 +5,13 @@ import {ButtonIconText, Card, Gap, Input, ModalSort} from '../../components';
 import {colors, hp, wp} from '../../constants';
 
 export const DaftarTransaksi = ({navigation}) => {
+  const data = [
+    {id: '1', name: 'URUTKAN', checked: true},
+    {id: '2', name: 'Nama A-Z', checked: false},
+    {id: '2', name: 'Nama Z-A', checked: false},
+    {id: '3', name: 'Tanggal Terbaru', checked: false},
+    {id: '4', name: 'Tanggal Terlama', checked: false},
+  ];
   const [show_modal, setShowModal] = useState(false);
   return (
     <View style={styles.page}>
@@ -33,6 +40,7 @@ export const DaftarTransaksi = ({navigation}) => {
       <ModalSort
         visible={show_modal}
         onPressClose={() => setShowModal(false)}
+        data={data}
       />
     </View>
   );
