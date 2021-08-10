@@ -15,6 +15,10 @@ export const DaftarTransaksi = ({navigation}) => {
   const [show_modal, setShowModal] = useState(false);
   const [filter, setFilter] = useState(data[0]);
 
+  const onPressFilter = item => {
+    setFilter(item);
+    setShowModal(false);
+  };
   return (
     <View style={styles.page}>
       <Gap height={hp(3)} />
@@ -44,7 +48,7 @@ export const DaftarTransaksi = ({navigation}) => {
         onPressClose={() => setShowModal(false)}
         data={data}
         filter={filter}
-        onPress={item => setFilter(item)}
+        onPress={item => onPressFilter(item)}
       />
     </View>
   );
