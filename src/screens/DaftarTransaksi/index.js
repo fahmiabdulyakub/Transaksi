@@ -6,13 +6,15 @@ import {colors, hp, wp} from '../../constants';
 
 export const DaftarTransaksi = ({navigation}) => {
   const data = [
-    {id: '1', name: 'URUTKAN', checked: true},
-    {id: '2', name: 'Nama A-Z', checked: false},
-    {id: '2', name: 'Nama Z-A', checked: false},
-    {id: '3', name: 'Tanggal Terbaru', checked: false},
-    {id: '4', name: 'Tanggal Terlama', checked: false},
+    {id: '1', name: 'URUTKAN'},
+    {id: '2', name: 'Nama A-Z'},
+    {id: '3', name: 'Nama Z-A'},
+    {id: '4', name: 'Tanggal Terbaru'},
+    {id: '5', name: 'Tanggal Terlama'},
   ];
   const [show_modal, setShowModal] = useState(false);
+  const [filter, setFilter] = useState(data[0]);
+
   return (
     <View style={styles.page}>
       <Gap height={hp(3)} />
@@ -25,7 +27,7 @@ export const DaftarTransaksi = ({navigation}) => {
         suffixComponentRight={
           <ButtonIconText
             backgroundColor={colors.white}
-            title={'URUTKAN'}
+            title={filter.name}
             flexDirection={'row'}
             titleColor={colors.border_danger}
             iconRight={<ICChevron width={wp(4)} height={wp(4)} />}
@@ -41,6 +43,8 @@ export const DaftarTransaksi = ({navigation}) => {
         visible={show_modal}
         onPressClose={() => setShowModal(false)}
         data={data}
+        filter={filter}
+        onPress={item => setFilter(item)}
       />
     </View>
   );
