@@ -10,8 +10,7 @@ export const Card = ({onPress}) => {
       alignItems: 'center',
     },
     content: {
-      paddingTop: hp(3),
-      paddingBottom: hp(2),
+      paddingVertical: hp(2.5),
       borderRadius: 5,
       backgroundColor: colors.white,
       borderLeftWidth: 10,
@@ -27,11 +26,11 @@ export const Card = ({onPress}) => {
     },
     text_bold: {
       fontFamily: fonts.LatoBlack,
-      fontSize: hp(2.2),
+      fontSize: hp(2),
     },
     text_reguler: {
       fontFamily: fonts.LatoBold,
-      fontSize: hp(2),
+      fontSize: hp(1.9),
     },
     label: {
       backgroundColor: colors.green,
