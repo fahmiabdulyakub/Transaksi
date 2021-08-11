@@ -2,7 +2,8 @@ import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {ICArrowRight} from '../../../assets';
 import {colors, fonts, hp, wp} from '../../../constants';
-import {formatBank, formatRupiah} from '../../../utils';
+import {formatBank, formatRupiah, getParsedDate} from '../../../utils';
+import {Gap} from '../../atoms';
 
 export const Card = ({onPress, item}) => {
   const styles = StyleSheet.create({
@@ -33,12 +34,13 @@ export const Card = ({onPress, item}) => {
     }),
     text_reguler: {
       fontFamily: fonts.LatoBold,
-      fontSize: hp(1.9),
+      fontSize: hp(1.8),
     },
     text_name: {
       fontFamily: fonts.LatoBold,
       fontSize: hp(1.9),
       textTransform: 'uppercase',
+      maxWidth: wp(50),
     },
     label: {
       backgroundColor: item.status === 'PENDING' ? colors.white : colors.green,
@@ -60,19 +62,23 @@ export const Card = ({onPress, item}) => {
   const text_sender = formatBank(item.sender_bank);
   const text_beneficiary = formatBank(item.beneficiary_bank);
 
+  const date = getParsedDate(item.completed_at);
+
   return (
     <TouchableOpacity style={styles.content} onPress={onPress}>
       <View>
         <View style={styles.row}>
           <Text style={styles.text_bold(text_sender)}>{item.sender_bank}</Text>
+          <Gap width={wp(1)} />
           {<ICArrowRight width={hp(2.5)} height={hp(2.5)} />}
+          <Gap width={wp(1)} />
           <Text style={styles.text_bold(text_beneficiary)}>
             {item.beneficiary_bank}
           </Text>
         </View>
         <Text style={styles.text_name}>{item.beneficiary_name}</Text>
         <Text style={styles.text_reguler}>
-          {formatRupiah(item.amount) + ' . 7 April 2020'}
+          {formatRupiah(item.amount) + ' . ' + date}
         </Text>
       </View>
       <View style={styles.label}>

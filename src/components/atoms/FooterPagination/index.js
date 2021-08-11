@@ -2,7 +2,7 @@ import React from 'react';
 import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
 import {colors, fonts, hp} from '../../../constants';
 
-const FooterPagination = ({label, visible}) => {
+const FooterPagination = ({visible}) => {
   return (
     <View style={styles.footer}>
       {visible ? (
@@ -25,6 +25,5 @@ const styles = StyleSheet.create({
   text: {
     fontSize: hp(1.6),
     fontFamily: fonts.LatoSemibold,
-    textTransform: 'capitalize',
   },
 });

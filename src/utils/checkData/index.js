@@ -1,3 +1,5 @@
+import {float} from '../parser';
+
 export const formatRupiah = (number = ' ', notRp) => {
   if (number === undefined) {
     return '0';
@@ -23,4 +25,37 @@ export const formatBank = name => {
   }
 
   return text_transform;
+};
+
+export const getParsedDate = date => {
+  date = String(date).split(' ');
+  let days = String(date[0]).split('-');
+  let hours = String(date[1]).split(':');
+
+  const number = [
+    float(days[0]),
+    float(days[1]) - 1,
+    float(days[2]),
+    float(hours[0]),
+    float(hours[1]),
+    float(hours[2]),
+  ];
+
+  const month = [
+    'Januari',
+    'Februari',
+    'Maret',
+    'April',
+    'Mei',
+    'Juni',
+    'Juli',
+    'Agustus',
+    'September',
+    'Oktober',
+    'November',
+    'Desember',
+  ];
+
+  const new_date = number[2] + ' ' + month[number[1]] + ' ' + number[0];
+  return new_date;
 };
