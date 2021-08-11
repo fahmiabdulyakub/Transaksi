@@ -64,7 +64,9 @@ export const DaftarTransaksi = ({navigation}) => {
         data={Object.keys(transaksi)}
         renderItem={({item}) => (
           <Card
-            onPress={() => navigation.navigate('DetailTransaksi')}
+            onPress={() =>
+              navigation.navigate('DetailTransaksi', {data: transaksi[item]})
+            }
             item={transaksi[item]}
           />
         )}

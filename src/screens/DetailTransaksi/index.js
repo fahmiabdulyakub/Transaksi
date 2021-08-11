@@ -4,12 +4,17 @@ import {ICArrowRight, ICCancel, ICCopy} from '../../assets';
 import {Button, ButtonIconOnly, Gap} from '../../components';
 import {colors, fonts, hp, wp} from '../../constants';
 import Clipboard from '@react-native-community/clipboard';
+import {formatBank, formatRupiah, getParsedDate} from '../../utils';
 
-export const DetailTransaksi = ({navigation}) => {
+export const DetailTransaksi = ({navigation, route}) => {
+  const {data} = route.params;
   const [show_detail, setShowDetail] = useState(false);
   const copyToClipboard = () => {
-    Clipboard.setString('hello world');
+    Clipboard.setString(data.id);
   };
+
+  const text_sender = formatBank(data.sender_bank);
+  const text_beneficiary = formatBank(data.beneficiary_bank);
 
   return (
     <View style={styles.page}>
@@ -21,7 +26,7 @@ export const DetailTransaksi = ({navigation}) => {
         />
         <Gap height={hp(1)} />
         <View style={styles.row}>
-          <Text style={styles.text}>ID TRANSAKSI:#FT16526923</Text>
+          <Text style={styles.text}>{'ID TRANSAKSI:#' + data.id}</Text>
           <ButtonIconOnly icon={<ICCopy />} onPress={() => copyToClipboard()} />
         </View>
       </View>
@@ -37,20 +42,30 @@ export const DetailTransaksi = ({navigation}) => {
       {show_detail && (
         <View style={styles.container_detail}>
           <View style={styles.row}>
-            <Text style={styles.text_bold}>Mandiri</Text>
+            <Text style={styles.text_bold(text_sender)}>
+              {data.sender_bank}
+            </Text>
+            <Gap width={wp(1)} />
             {<ICArrowRight width={hp(2.5)} height={hp(2.5)} />}
-            <Text style={styles.text_bold}>BCA</Text>
+            <Gap width={wp(1)} />
+            <Text style={styles.text_bold(text_beneficiary)}>
+              {data.beneficiary_bank}
+            </Text>
           </View>
           <Gap height={hp(1)} />
           <View style={styles.row_between}>
-            <Text style={[styles.text, {width: wp(60)}]}>SYIFA SALSABILA</Text>
+            <Text style={[styles.text, {width: wp(60)}]}>
+              {data.beneficiary_name}
+            </Text>
             <Text style={styles.text}>NOMINAL</Text>
           </View>
           <View style={styles.row_between}>
             <Text style={[styles.text_semibold, {width: wp(60)}]}>
-              0313955548
+              {data.account_number}
             </Text>
-            <Text style={styles.text_semibold}>Rp10.028</Text>
+            <Text style={styles.text_semibold}>
+              {formatRupiah(data.amount)}
+            </Text>
           </View>
           <Gap height={hp(4)} />
           <View style={styles.row_between}>
@@ -59,13 +74,15 @@ export const DetailTransaksi = ({navigation}) => {
           </View>
           <View style={styles.row_between}>
             <Text style={[styles.text_semibold, {width: wp(60)}]}>
-              coba mbanking yey
+              {data.remark}
             </Text>
-            <Text style={styles.text_semibold}>50</Text>
+            <Text style={styles.text_semibold}>{data.unique_code}</Text>
           </View>
           <Gap height={hp(4)} />
           <Text style={[styles.text, {width: wp(60)}]}>WAKTU DIBUAT</Text>
-          <Text style={styles.text_semibold}>8 April 2020</Text>
+          <Text style={styles.text_semibold}>
+            {getParsedDate(data.created_at)}
+          </Text>
         </View>
       )}
     </View>
@@ -86,6 +103,7 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: fonts.LatoBold,
     fontSize: hp(1.8),
+    textTransform: 'uppercase',
   },
   text_semibold: {
     fontFamily: fonts.LatoSemibold,
@@ -103,10 +121,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  text_bold: {
+  text_bold: textTransform => ({
     fontFamily: fonts.LatoBlack,
     fontSize: hp(2.2),
-  },
+    textTransform: textTransform,
+  }),
   container_detail: {
     paddingHorizontal: wp(5),
     backgroundColor: colors.white,
