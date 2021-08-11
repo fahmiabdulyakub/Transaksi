@@ -5,7 +5,7 @@ import Gap from '../Gap';
 
 export const RadioButton = ({item, checked, onPress}) => {
   return (
-    <TouchableOpacity style={styles.row} activeOpacity={0.8} onPress={onPress}>
+    <TouchableOpacity style={styles.row} activeOpacity={0.4} onPress={onPress}>
       <View style={styles.uncheck}>
         {checked && <View style={styles.checked} />}
       </View>

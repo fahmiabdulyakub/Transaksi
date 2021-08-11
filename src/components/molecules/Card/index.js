@@ -62,7 +62,7 @@ export const Card = ({onPress, item}) => {
   const text_sender = formatBank(item.sender_bank);
   const text_beneficiary = formatBank(item.beneficiary_bank);
 
-  const date = getParsedDate(item.completed_at);
+  const date = getParsedDate(item.created_at);
 
   return (
     <TouchableOpacity style={styles.content} onPress={onPress}>

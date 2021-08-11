@@ -23,7 +23,9 @@ export const DaftarTransaksi = ({navigation}) => {
   const [show_modal, setShowModal] = useState(false);
   const [filter, setFilter] = useState(data[0]);
   const [transaksi, setTransaksi] = useState([]);
+  const [transaksi_filter, setTransaksiFilter] = useState([]);
   const [is_loading, setIsLoading] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   const onPressFilter = item => {
     setFilter(item);
@@ -34,9 +36,47 @@ export const DaftarTransaksi = ({navigation}) => {
     setIsLoading(true);
     getData().then(result => {
       setTransaksi(result);
+      setTransaksiFilter(result);
       setIsLoading(false);
     });
   }, []);
+
+  const onRefresh = () => {
+    setRefresh(true);
+    getData().then(result => {
+      setTransaksi(result);
+      setTransaksiFilter(result);
+      setRefresh(false);
+    });
+  };
+
+  const onSearch = cari => {
+    const newData = Object.keys(transaksi).reduce(function (item, key) {
+      const name = transaksi[key].beneficiary_name
+        ? transaksi[key].beneficiary_name.toLowerCase()
+        : '';
+      const beneficiary_bank = transaksi[key].beneficiary_bank
+        ? transaksi[key].beneficiary_bank.toLowerCase()
+        : '';
+      const sender_bank = transaksi[key].sender_bank
+        ? transaksi[key].sender_bank.toLowerCase()
+        : '';
+      const amount = transaksi[key].amount
+        ? transaksi[key].amount.toString()
+        : '';
+      const text = cari;
+      if (
+        beneficiary_bank.indexOf(text) > -1 ||
+        name.indexOf(text) > -1 ||
+        sender_bank.indexOf(text) > -1 ||
+        amount.indexOf(text) > -1
+      ) {
+        item[key] = transaksi[key];
+      }
+      return item;
+    }, {});
+    setTransaksiFilter(cari ? newData : transaksi);
+  };
   return (
     <View style={styles.page}>
       <Gap height={hp(3)} />
@@ -46,6 +86,7 @@ export const DaftarTransaksi = ({navigation}) => {
         placeholder={'Cari nama,bank atau nominal'}
         placeholderColor={colors.dark_grey}
         colorText={colors.black}
+        onChangeText={value => onSearch(value.toLowerCase())}
         suffixComponentRight={
           <ButtonIconText
             backgroundColor={colors.white}
@@ -59,15 +100,20 @@ export const DaftarTransaksi = ({navigation}) => {
       />
       <Gap height={hp(1)} />
       <FlatList
+        refreshing={refresh}
+        onRefresh={onRefresh}
+        onEndReachedThreshold={0}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item, index) => index.toString()}
-        data={Object.keys(transaksi)}
+        data={Object.keys(transaksi_filter)}
         renderItem={({item}) => (
           <Card
             onPress={() =>
-              navigation.navigate('DetailTransaksi', {data: transaksi[item]})
+              navigation.navigate('DetailTransaksi', {
+                data: transaksi_filter[item],
+              })
             }
-            item={transaksi[item]}
+            item={transaksi_filter[item]}
           />
         )}
         ListFooterComponent={<FooterPagination visible={is_loading} />}
