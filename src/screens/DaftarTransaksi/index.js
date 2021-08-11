@@ -67,7 +67,6 @@ export const DaftarTransaksi = ({navigation}) => {
             if (data[a].beneficiary_name < data[b].beneficiary_name) {
               return -1;
             }
-            return 0;
           } else if (item.id === '3') {
             if (data[a].beneficiary_name < data[b].beneficiary_name) {
               return 1;
@@ -75,24 +74,22 @@ export const DaftarTransaksi = ({navigation}) => {
             if (data[a].beneficiary_name > data[b].beneficiary_name) {
               return -1;
             }
-            return 0;
           } else if (item.id === '4') {
-            if (data[a].created_at > data[b].created_at) {
+            if (data[a].created_at < data[b].created_at) {
               return 1;
             }
-            if (data[a].created_at < data[b].created_at) {
+            if (data[a].created_at > data[b].created_at) {
               return -1;
             }
-            return 0;
           } else {
-            if (data[a].created_at < data[b].created_at) {
+            if (data[a].created_at > data[b].created_at) {
               return 1;
             }
-            if (data[a].created_at > data[b].created_at) {
+            if (data[a].created_at < data[b].created_at) {
               return -1;
             }
-            return 0;
           }
+          return 0;
         })
         .forEach(function (key) {
           sorted[key] = data[key];
