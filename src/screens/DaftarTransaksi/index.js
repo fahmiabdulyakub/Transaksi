@@ -22,19 +22,55 @@ export const DaftarTransaksi = ({navigation}) => {
   ];
   const [show_modal, setShowModal] = useState(false);
   const [filter, setFilter] = useState(data[0]);
-  const [transaksi, setTransaksi] = useState([]);
-  const [transaksi_filter, setTransaksiFilter] = useState([]);
+  const [transaksi, setTransaksi] = useState({});
+  const [transaksi_filter, setTransaksiFilter] = useState({});
   const [is_loading, setIsLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
 
   const onPressFilter = item => {
     setFilter(item);
     setShowModal(false);
+    let sorted = {};
+    if (item.id === '1') {
+      setTransaksiFilter(transaksi);
+    } else if (item.id === '2') {
+      Object.keys(transaksi)
+        .sort(function (a, b) {
+          if (transaksi[a].beneficiary_name > transaksi[b].beneficiary_name) {
+            return 1;
+          }
+          if (transaksi[a].beneficiary_name < transaksi[b].beneficiary_name) {
+            return -1;
+          }
+          return 0;
+        })
+        .forEach(function (key) {
+          sorted[key] = transaksi[key];
+        });
+      setTransaksiFilter(sorted);
+    } else if (item.id === '3') {
+      Object.keys(transaksi)
+        .sort(function (a, b) {
+          if (transaksi[a].beneficiary_name < transaksi[b].beneficiary_name) {
+            return 1;
+          }
+          if (transaksi[a].beneficiary_name > transaksi[b].beneficiary_name) {
+            return -1;
+          }
+          return 0;
+        })
+        .forEach(function (key) {
+          sorted[key] = transaksi[key];
+        });
+      setTransaksiFilter(sorted);
+    } else {
+    }
   };
 
   useEffect(() => {
     setIsLoading(true);
     getData().then(result => {
+      console.log(result);
       setTransaksi(result);
       setTransaksiFilter(result);
       setIsLoading(false);
@@ -46,6 +82,7 @@ export const DaftarTransaksi = ({navigation}) => {
     getData().then(result => {
       setTransaksi(result);
       setTransaksiFilter(result);
+      setFilter(data[0]);
       setRefresh(false);
     });
   };
@@ -77,6 +114,7 @@ export const DaftarTransaksi = ({navigation}) => {
     }, {});
     setTransaksiFilter(cari ? newData : transaksi);
   };
+
   return (
     <View style={styles.page}>
       <Gap height={hp(3)} />
