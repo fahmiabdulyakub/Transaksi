@@ -57,6 +57,13 @@ export const Card = ({onPress, item}) => {
       fontSize: hp(1.8),
       color: item.status === 'PENDING' ? colors.black : colors.white,
     },
+    dot: {
+      backgroundColor: colors.black,
+      width: wp(1.5),
+      height: wp(1.5),
+      borderRadius: wp(1.5) / 2,
+      marginHorizontal: wp(1),
+    },
   });
 
   const text_sender = formatBank(item.sender_bank);
@@ -77,9 +84,11 @@ export const Card = ({onPress, item}) => {
           </Text>
         </View>
         <Text style={styles.text_name}>{item.beneficiary_name}</Text>
-        <Text style={styles.text_reguler}>
-          {formatRupiah(item.amount) + ' . ' + date}
-        </Text>
+        <View style={styles.row}>
+          <Text style={styles.text_reguler}>{formatRupiah(item.amount)}</Text>
+          <View style={styles.dot} />
+          <Text style={styles.text_reguler}>{date}</Text>
+        </View>
       </View>
       <View style={styles.label}>
         <Text style={styles.title_label}>

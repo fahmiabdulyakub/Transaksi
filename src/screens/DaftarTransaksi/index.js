@@ -13,7 +13,7 @@ import {colors, hp, wp} from '../../constants';
 import {getData} from '../../services';
 
 export const DaftarTransaksi = ({navigation}) => {
-  const data = [
+  const data_filter = [
     {id: '1', name: 'URUTKAN'},
     {id: '2', name: 'Nama A-Z'},
     {id: '3', name: 'Nama Z-A'},
@@ -21,56 +21,22 @@ export const DaftarTransaksi = ({navigation}) => {
     {id: '5', name: 'Tanggal Terlama'},
   ];
   const [show_modal, setShowModal] = useState(false);
-  const [filter, setFilter] = useState(data[0]);
+  const [filter, setFilter] = useState(data_filter[0]);
   const [transaksi, setTransaksi] = useState({});
   const [transaksi_filter, setTransaksiFilter] = useState({});
   const [is_loading, setIsLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
+  const [search, setSearch] = useState('');
 
   const onPressFilter = item => {
     setFilter(item);
     setShowModal(false);
-    let sorted = {};
-    if (item.id === '1') {
-      setTransaksiFilter(transaksi);
-    } else if (item.id === '2') {
-      Object.keys(transaksi)
-        .sort(function (a, b) {
-          if (transaksi[a].beneficiary_name > transaksi[b].beneficiary_name) {
-            return 1;
-          }
-          if (transaksi[a].beneficiary_name < transaksi[b].beneficiary_name) {
-            return -1;
-          }
-          return 0;
-        })
-        .forEach(function (key) {
-          sorted[key] = transaksi[key];
-        });
-      setTransaksiFilter(sorted);
-    } else if (item.id === '3') {
-      Object.keys(transaksi)
-        .sort(function (a, b) {
-          if (transaksi[a].beneficiary_name < transaksi[b].beneficiary_name) {
-            return 1;
-          }
-          if (transaksi[a].beneficiary_name > transaksi[b].beneficiary_name) {
-            return -1;
-          }
-          return 0;
-        })
-        .forEach(function (key) {
-          sorted[key] = transaksi[key];
-        });
-      setTransaksiFilter(sorted);
-    } else {
-    }
+    sorting(item, search ? transaksi_filter : transaksi);
   };
 
   useEffect(() => {
     setIsLoading(true);
     getData().then(result => {
-      console.log(result);
       setTransaksi(result);
       setTransaksiFilter(result);
       setIsLoading(false);
@@ -82,12 +48,51 @@ export const DaftarTransaksi = ({navigation}) => {
     getData().then(result => {
       setTransaksi(result);
       setTransaksiFilter(result);
-      setFilter(data[0]);
+      setFilter(data_filter[0]);
       setRefresh(false);
     });
   };
 
+  const sorting = (item, data) => {
+    let sorted = {};
+    if (item.id === '1') {
+      setTransaksiFilter(data);
+    } else if (item.id === '2') {
+      Object.keys(data)
+        .sort(function (a, b) {
+          if (data[a].beneficiary_name > data[b].beneficiary_name) {
+            return 1;
+          }
+          if (data[a].beneficiary_name < data[b].beneficiary_name) {
+            return -1;
+          }
+          return 0;
+        })
+        .forEach(function (key) {
+          sorted[key] = data[key];
+        });
+      setTransaksiFilter(sorted);
+    } else if (item.id === '3') {
+      Object.keys(data)
+        .sort(function (a, b) {
+          if (data[a].beneficiary_name < data[b].beneficiary_name) {
+            return 1;
+          }
+          if (data[a].beneficiary_name > data[b].beneficiary_name) {
+            return -1;
+          }
+          return 0;
+        })
+        .forEach(function (key) {
+          sorted[key] = data[key];
+        });
+      setTransaksiFilter(sorted);
+    } else {
+    }
+  };
+
   const onSearch = cari => {
+    setSearch(cari);
     const newData = Object.keys(transaksi).reduce(function (item, key) {
       const name = transaksi[key].beneficiary_name
         ? transaksi[key].beneficiary_name.toLowerCase()
@@ -112,7 +117,7 @@ export const DaftarTransaksi = ({navigation}) => {
       }
       return item;
     }, {});
-    setTransaksiFilter(cari ? newData : transaksi);
+    sorting(filter, cari ? newData : transaksi);
   };
 
   return (
@@ -159,7 +164,7 @@ export const DaftarTransaksi = ({navigation}) => {
       <ModalSort
         visible={show_modal}
         onPressClose={() => setShowModal(false)}
-        data={data}
+        data={data_filter}
         filter={filter}
         onPress={item => onPressFilter(item)}
       />
@@ -178,5 +183,11 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingHorizontal: wp(3),
+  },
+  dot: {
+    backgroundColor: colors.black,
+    width: wp(2.5),
+    height: wp(2.5),
+    borderRadius: wp(2.5) / 2,
   },
 });
