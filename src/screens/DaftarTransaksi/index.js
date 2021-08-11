@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {ICChevron, ICSearch} from '../../assets';
 import {ButtonIconText, Card, Gap, Input, ModalSort} from '../../components';
 import {colors, hp, wp} from '../../constants';
+import {getData} from '../../services';
 
 export const DaftarTransaksi = ({navigation}) => {
   const data = [
@@ -19,6 +20,12 @@ export const DaftarTransaksi = ({navigation}) => {
     setFilter(item);
     setShowModal(false);
   };
+
+  useEffect(() => {
+    getData().then(result => {
+      console.log(result);
+    });
+  }, []);
   return (
     <View style={styles.page}>
       <Gap height={hp(3)} />
