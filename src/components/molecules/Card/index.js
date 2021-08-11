@@ -2,8 +2,9 @@ import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {ICArrowRight} from '../../../assets';
 import {colors, fonts, hp, wp} from '../../../constants';
+import {formatBank, formatRupiah} from '../../../utils';
 
-export const Card = ({onPress}) => {
+export const Card = ({onPress, item}) => {
   const styles = StyleSheet.create({
     row: {
       flexDirection: 'row',
@@ -14,7 +15,8 @@ export const Card = ({onPress}) => {
       borderRadius: 5,
       backgroundColor: colors.white,
       borderLeftWidth: 10,
-      borderLeftColor: colors.green,
+      borderLeftColor:
+        item.status === 'PENDING' ? colors.border_danger : colors.green,
       borderTopLeftRadius: 10,
       borderBottomLeftRadius: 10,
       flexDirection: 'row',
@@ -24,42 +26,59 @@ export const Card = ({onPress}) => {
       paddingLeft: wp(3),
       marginVertical: hp(0.5),
     },
-    text_bold: {
+    text_bold: textTransform => ({
       fontFamily: fonts.LatoBlack,
       fontSize: hp(2),
-    },
+      textTransform: textTransform,
+    }),
     text_reguler: {
       fontFamily: fonts.LatoBold,
       fontSize: hp(1.9),
     },
+    text_name: {
+      fontFamily: fonts.LatoBold,
+      fontSize: hp(1.9),
+      textTransform: 'uppercase',
+    },
     label: {
-      backgroundColor: colors.green,
+      backgroundColor: item.status === 'PENDING' ? colors.white : colors.green,
       borderRadius: 8,
       justifyContent: 'center',
       alignItems: 'center',
       paddingHorizontal: wp(3),
       paddingVertical: 6,
+      borderWidth: item.status === 'PENDING' ? 1 : 0,
+      borderColor: colors.border_danger,
     },
     title_label: {
       fontFamily: fonts.LatoBold,
       fontSize: hp(1.8),
-      color: colors.white,
+      color: item.status === 'PENDING' ? colors.black : colors.white,
     },
   });
+
+  const text_sender = formatBank(item.sender_bank);
+  const text_beneficiary = formatBank(item.beneficiary_bank);
 
   return (
     <TouchableOpacity style={styles.content} onPress={onPress}>
       <View>
         <View style={styles.row}>
-          <Text style={styles.text_bold}>Mandiri</Text>
+          <Text style={styles.text_bold(text_sender)}>{item.sender_bank}</Text>
           {<ICArrowRight width={hp(2.5)} height={hp(2.5)} />}
-          <Text style={styles.text_bold}>BCA</Text>
+          <Text style={styles.text_bold(text_beneficiary)}>
+            {item.beneficiary_bank}
+          </Text>
         </View>
-        <Text style={styles.text_reguler}>REZA MAULIADI</Text>
-        <Text style={styles.text_reguler}>Rp10.000 . 7 April 2020</Text>
+        <Text style={styles.text_name}>{item.beneficiary_name}</Text>
+        <Text style={styles.text_reguler}>
+          {formatRupiah(item.amount) + ' . 7 April 2020'}
+        </Text>
       </View>
       <View style={styles.label}>
-        <Text style={styles.title_label}>Berhasil</Text>
+        <Text style={styles.title_label}>
+          {item.status === 'PENDING' ? 'Pengecekan' : 'Berhasil'}
+        </Text>
       </View>
     </TouchableOpacity>
   );

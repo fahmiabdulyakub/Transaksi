@@ -1,7 +1,14 @@
 import React, {useState, useEffect} from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import {ICChevron, ICSearch} from '../../assets';
-import {ButtonIconText, Card, Gap, Input, ModalSort} from '../../components';
+import {
+  ButtonIconText,
+  Card,
+  FooterPagination,
+  Gap,
+  Input,
+  ModalSort,
+} from '../../components';
 import {colors, hp, wp} from '../../constants';
 import {getData} from '../../services';
 
@@ -15,6 +22,8 @@ export const DaftarTransaksi = ({navigation}) => {
   ];
   const [show_modal, setShowModal] = useState(false);
   const [filter, setFilter] = useState(data[0]);
+  const [transaksi, setTransaksi] = useState([]);
+  const [is_loading, setIsLoading] = useState(false);
 
   const onPressFilter = item => {
     setFilter(item);
@@ -22,8 +31,10 @@ export const DaftarTransaksi = ({navigation}) => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     getData().then(result => {
-      console.log(result);
+      setTransaksi(result);
+      setIsLoading(false);
     });
   }, []);
   return (
@@ -47,9 +58,18 @@ export const DaftarTransaksi = ({navigation}) => {
         }
       />
       <Gap height={hp(1)} />
-      <ScrollView>
-        <Card onPress={() => navigation.navigate('DetailTransaksi')} />
-      </ScrollView>
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        keyExtractor={(item, index) => index.toString()}
+        data={Object.keys(transaksi)}
+        renderItem={({item}) => (
+          <Card
+            onPress={() => navigation.navigate('DetailTransaksi')}
+            item={transaksi[item]}
+          />
+        )}
+        ListFooterComponent={<FooterPagination visible={is_loading} />}
+      />
       <ModalSort
         visible={show_modal}
         onPressClose={() => setShowModal(false)}
